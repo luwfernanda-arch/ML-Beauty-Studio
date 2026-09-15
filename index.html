@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Beauty Studio | Estilo & Elegancia</title>
+    <style>
+        /* Estilos base para una apariencia moderna y elegante */
+        :root {
+            --primary-color: #d4a373;
+            --secondary-color: #fefae0;
+            --dark-color: #333333;
+            --light-color: #faedcd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-color);
+            background-color: #fafafa;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* SECCIÓN HERO CON LA IMAGEN DE FONDO PERSONALIZADA */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('Gemini_Generated_Image_dxhb4ddxhb4ddxhb.jpg') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 6rem 1rem;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .services-grid, .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        /* Estilos específicos para la sección Nosotros */
+        .about-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 3rem;
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-section h3 {
+            color: var(--dark-color);
+            margin-top: 1.5rem;
+        }
+
+        .about-list {
+            text-align: left;
+            line-height: 1.8;
+            padding-left: 1.2rem;
+        }
+
+        .booking-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-top: 3rem;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            grid-column: span 2;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, opacity 0.3s;
+        }
+
+        button:hover {
+            background-color: #bc8a5f;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-mapa, .btn-ver-tabla {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-mapa:hover, .btn-ver-tabla:hover {
+            background-color: #bc8a5f;
+        }
+
+        /* SECCIÓN TABLAS DE CITAS */
+        .tabla-citas-container {
+            margin-top: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdfbf7;
+        }
+
+        .codigo-badge {
+            background-color: var(--dark-color);
+            color: var(--secondary-color);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .mensaje-alerta {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #f5c6cb;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        /* ESTILOS DE LA VENTANA EMERGENTE (MODAL) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .codigo-emergente {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            background: var(--secondary-color);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            border: 2px dashed var(--primary-color);
+            margin: 0.8rem 0;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .modal-details {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            text-align: left;
+        }
+
+        .modal-details p {
+            margin: 0.5rem 0;
+        }
+
+        .btn-cerrar {
+            padding: 0.6rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>ML BEAUTY STUDIO</h1>
+        </div>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#agendar">Agendar Cita</a>
+            <a href="#citas-agendadas">Turnos Agendados</a>
+        </nav>
+    </header>
+
+    <!-- BANNER HERO CON LA NUEVA IMAGEN DE FONDO -->
+    <section id="inicio" class="hero">
+        <h2>Resalta tu belleza natural</h2>
+        <p>Tu espacio de cuidado personal, estilo y relajación.</p>
+    </section>
+
+    <div class="container">
+        
+        <!-- SECCIÓN SERVICIOS -->
+        <section id="servicios">
+            <h2 style="text-align: center;">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="card">
+                    <h3>Corte & Peinado</h3>
+                    <p>Diseño de imagen adaptado a tu estilo y tendencias actuales.</p>
+                </div>
+                <div class="card">
+                    <h3>Manicura & Pedicura</h3>
+                    <p>Cuidado integral de manos y pies con productos de alta gama.</p>
+                </div>
+                <div class="card">
+                    <h3>Tratamientos Faciales</h3>
+                    <p>Limpieza profunda e hidratación para devolverle el brillo a tu piel.</p>
+                </div>
+                <div class="card">
+                    <h3>Maquillaje Profesional</h3>
+                    <p>Ideal para eventos especiales, bodas y sesiones fotográficas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN NOSOTROS -->
+        <section id="nosotros" class="about-section">
+            <h2>Sobre ML Beauty Studio</h2>
+            <p><strong>ML Beauty Studio</strong> nació con la visión de crear un concepto único en belleza y estética, donde el cuidado personal se transforma en una experiencia de bienestar, relajación y confianza. Fundado y dirigido con pasión por nuestra especialista principal, el estudio se ha consolidado como un referente de estilo y atención personalizada.</p>
+            
+            <p>Creemos que la belleza auténtica proviene del cuidado adecuado y de resaltar las facetas únicas de cada cliente. Por ello, adaptamos cada uno de nuestros procedimientos a tus necesidades específicas, garantizando un servicio exclusivo y resultados profesionales.</p>
+
+            <div class="about-grid">
+                <div class="card">
+                    <h3>Atención Personalizada</h3>
+                    <p>Realizamos un diagnóstico previo para ofrecerte soluciones a la medida de tu estilo y tipo de piel o cabello.</p>
+                </div>
+                <div class="card">
+                    <h3>Productos de Alta Calidad</h3>
+                    <p>Trabajamos únicamente con marcas reconocidas para proteger y nutrir tu piel y cabello en cada procedimiento.</p>
+                </div>
+                <div class="card">
+                    <h3>Higiene y Confort</h3>
+                    <p>Garantizamos un espacio acogedor y con altos estándares de esterilización para tu completa tranquilidad.</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 2.5rem;">Detalles de Nuestros Servicios Proporcionados</h3>
+            <ul class="about-list">
+                <li><strong>Estilismo & Capilar:</strong> Cortes modernos, repolarización capilar, tinturas, mechas, balayage y peinados para todo tipo de ocasión.</li>
+                <li><strong>Spa de Uñas:</strong> Manicura y pedicura tradicional, semipermanente, esculpidas en gel y acrílico con diseños personalizados a mano alzada.</li>
+                <li><strong>Cuidado Facial & Estética:</strong> Limpiezas faciales profundas, hidratación con ácido hialurónico, exfoliación y tratamientos rejuvenecedores.</li>
+                <li><strong>Maquillaje & Eventos:</strong> Maquillaje social, de novia y para fotografía, destacando tus facciones con técnicas de larga duración.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN AGENDAR CITA -->
+        <section id="agendar" class="booking-section">
+            <h2>Agenda tu Cita</h2>
+            <p>Selecciona el servicio y la fecha que mejor se adapten a tu horario.</p>
+
+            <div id="mensajeCupoLleno" class="mensaje-alerta">
+                Nuestro cronograma se encuentra lleno para esta modalidad y no podemos agendarte en este momento. ¡Vuelve pronto o selecciona otra fecha!
+            </div>
+            
+            <form id="formCita">
+                
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre_cliente" required placeholder="Ej. Laura Pérez">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono / WhatsApp:</label>
+                    <input type="tel" id="telefono" name="telefono_cliente" required placeholder="Ej. +57 300 123 4567">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email_cliente" required placeholder="ejemplo@correo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="servicio">Servicio Solicitado:</label>
+                    <select id="servicio" name="id_servicio" required>
+                        <option value="">-- Selecciona un servicio --</option>
+                        <option value="Corte & Peinado">Corte & Peinado</option>
+                        <option value="Manicura & Pedicura">Manicura & Pedicura</option>
+                        <option value="Tratamiento Facial">Tratamiento Facial</option>
+                        <option value="Maquillaje Profesional">Maquillaje Profesional</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha_cita" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora_cita" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="notas">Notas o requerimientos especiales:</label>
+                    <textarea id="notas" name="notas_adicionales" rows="3" placeholder="¿Tienes alguna preferencia o condición especial?"></textarea>
+                </div>
+
+                <button type="submit" id="btnSubmit" disabled>Confirmar y Agendar Cita</button>
+            </form>
+        </section>
+
+        <!-- SECCIÓN DE CONSULTA DE CITAS AGENDADAS (TABLAS PÚBLICAS) -->
+        <section id="citas-agendadas" class="tabla-citas-container">
+            <h2>Agenda de Turnos Confirmados</h2>
+            <p>Consulta el estado de los turnos reservados sin exponer datos personales.</p>
+
+            <div style="margin-bottom: 1rem;">
+                <button type="button" class="btn-ver-tabla" onclick="alternarTabla('corto')">Citas Corto Plazo (&le; 31 Días)</button>
+                <button type="button" class="btn-ver-tabla" style="background-color: #333;" onclick="alternarTabla('largo')">Citas Largo Plazo (&gt; 31 Días)</button>
+            </div>
+
+            <!-- TABLA CORTO PLAZO -->
+            <div id="contenedorTablaCorto" style="display: none; margin-top: 1.5rem;">
+                <h3>Citas a Corto Plazo (Próximos 31 días)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaCorto"></tbody>
+                </table>
+            </div>
+
+            <!-- TABLA LARGO PLAZO -->
+            <div id="contenedorTablaLargo" style="display: none; margin-top: 1.5rem;">
+                <h3>Citas a Largo Plazo (Más de 31 días)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaLargo"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN UBICACIÓN -->
+        <section id="localizacion" style="margin-top: 3rem;">
+            <h2 style="text-align: center;">Nuestra Ubicación</h2>
+            <div class="services-grid">
+                <div class="card">
+                    <h3>Dirección</h3>
+                    <p>Estamos ubicados en Sogamoso - Boyacá.</p>
+                </div>
+                <div class="card">
+                    <h3>Nuestra Localización</h3>
+                    <p>Consulta nuestro mapa interactivo para llegar fácilmente.</p>
+                    <a href="index2.html" class="btn-mapa">Ir al mapa</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- VENTANA EMERGENTE (MODAL) CON CÓDIGO ÚNICO -->
+    <div id="modalCita" class="modal-overlay">
+        <div class="modal-content">
+            <h3>¡Cita Agendada con Éxito!</h3>
+            <p>Guarda tu código de turno para identificación:</p>
+            
+            <div id="modalCodigo" class="codigo-emergente">000</div>
+
+            <div class="modal-details">
+                <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
+                <p><strong>Hora:</strong> <span id="modalHora"></span></p>
+                <p><strong>Clasificación:</strong> <span id="modalTipo"></span></p>
+            </div>
+
+            <p style="font-size: 0.85rem; color: #666;">Presenta este código al llegar a ML Beauty Studio.</p>
+            <button type="button" class="btn-cerrar" onclick="cerrarModal()">Aceptar</button>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>ML Beauty Studio</strong> &copy; 2026 - Todos los derechos reservados.</p>
+        <p>Horario: Lunes a Sábado de 9:00 AM a 7:00 PM</p>
+    </footer>
+
+    <script>
+        const MAX_CITAS = 10;
+        const form = document.getElementById('formCita');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const inputsRequeridos = form.querySelectorAll('[required]');
+        const mensajeCupo = document.getElementById('mensajeCupoLleno');
+
+        // Cargar citas guardadas previamente en localStorage
+        let citasRegistradas = JSON.parse(localStorage.getItem('ml_citas')) || [];
+
+        // Eliminar citas que ya se hayan cumplido
+        function depurarCitasVencidas() {
+            const ahora = new Date();
+            citasRegistradas = citasRegistradas.filter(cita => {
+                const fechaHoraCita = new Date(`${cita.fecha}T${cita.hora}`);
+                return fechaHoraCita >= ahora;
+            });
+            localStorage.setItem('ml_citas', JSON.stringify(citasRegistradas));
+        }
+
+        // Calcula cuántos días hay entre hoy y la fecha elegida
+        function obtenerDiferenciaDias(fechaStr) {
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+            const fechaCita = new Date(fechaStr + 'T00:00:00');
+            const diferenciaMS = fechaCita - hoy;
+            return Math.ceil(diferenciaMS / (1000 * 60 * 60 * 24));
+        }
+
+        // Validar formulario y comprobar cupos de 10 citas
+        function validarFormulario() {
+            depurarCitasVencidas();
+            
+            let todosLlenos = true;
+            inputsRequeridos.forEach(input => {
+                if (!input.value.trim()) todosLlenos = false;
+            });
+
+            const fechaInput = document.getElementById('fecha').value;
+            let estaLleno = false;
+
+            if (fechaInput) {
+                const dias = obtenerDiferenciaDias(fechaInput);
+                const esCortoPlazo = dias <= 31;
+
+                const totalCorto = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) <= 31).length;
+                const totalLargo = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) > 31).length;
+
+                if ((esCortoPlazo && totalCorto >= MAX_CITAS) || (!esCortoPlazo && totalLargo >= MAX_CITAS)) {
+                    estaLleno = true;
+                }
+            }
+
+            if (estaLleno) {
+                mensajeCupo.style.display = 'block';
+                btnSubmit.disabled = true;
+            } else {
+                mensajeCupo.style.display = 'none';
+                btnSubmit.disabled = !todosLlenos;
+            }
+        }
+
+        inputsRequeridos.forEach(input => {
+            input.addEventListener('input', validarFormulario);
+            input.addEventListener('change', validarFormulario);
+        });
+
+        // Generar un código único de 3 dígitos
+        function generarCodigoUnico() {
+            let codigo;
+            let existe = false;
+            do {
+                const numero = Math.floor(Math.random() * 1000);
+                codigo = String(numero).padStart(3, '0');
+                existe = citasRegistradas.some(cita => cita.codigo === codigo);
+            } while (existe);
+            return codigo;
+        }
+
+        // Procesar agendamiento
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (btnSubmit.disabled) return;
+
+            depurarCitasVencidas();
+            const fechaVal = document.getElementById('fecha').value;
+            const horaVal = document.getElementById('hora').value;
+            const dias = obtenerDiferenciaDias(fechaVal);
+            const esCortoPlazo = dias <= 31;
+
+            const citasCategoria = citasRegistradas.filter(c => (obtenerDiferenciaDias(c.fecha) <= 31) === esCortoPlazo);
+
+            if (citasCategoria.length >= MAX_CITAS) {
+                mensajeCupo.style.display = 'block';
+                btnSubmit.disabled = true;
+                return;
+            }
+
+            const codigoGenerado = generarCodigoUnico();
+            const nuevaCita = {
+                codigo: codigoGenerado,
+                fecha: fechaVal,
+                hora: horaVal
+            };
+
+            citasRegistradas.push(nuevaCita);
+            localStorage.setItem('ml_citas', JSON.stringify(citasRegistradas));
+
+            // Actualizar tablas visibles
+            actualizarTablas();
+
+            // Desplegar datos en el modal emergente
+            document.getElementById('modalCodigo').innerText = codigoGenerado;
+            document.getElementById('modalFecha').innerText = fechaVal;
+            document.getElementById('modalHora').innerText = horaVal;
+            document.getElementById('modalTipo').innerText = esCortoPlazo ? 'Corto Plazo' : 'Largo Plazo';
+            document.getElementById('modalCita').style.display = 'flex';
+
+            form.reset();
+            validarFormulario();
+        });
+
+        function cerrarModal() {
+            document.getElementById('modalCita').style.display = 'none';
+        }
+
+        function alternarTabla(tipo) {
+            actualizarTablas();
+            const divCorto = document.getElementById('contenedorTablaCorto');
+            const divLargo = document.getElementById('contenedorTablaLargo');
+
+            if (tipo === 'corto') {
+                divCorto.style.display = (divCorto.style.display === 'none' || divCorto.style.display === '') ? 'block' : 'none';
+            } else {
+                divLargo.style.display = (divLargo.style.display === 'none' || divLargo.style.display === '') ? 'block' : 'none';
+            }
+        }
+
+        function actualizarTablas() {
+            depurarCitasVencidas();
+            const cuerpoCorto = document.getElementById('cuerpoTablaCorto');
+            const cuerpoLargo = document.getElementById('cuerpoTablaLargo');
+
+            cuerpoCorto.innerHTML = '';
+            cuerpoLargo.innerHTML = '';
+
+            const citasCorto = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) <= 31);
+            const citasLargo = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) > 31);
+
+            if (citasCorto.length === 0) {
+                cuerpoCorto.innerHTML = '<tr><td colspan="4">No hay citas de corto plazo agendadas.</td></tr>';
+            } else {
+                citasCorto.forEach(cita => {
+                    cuerpoCorto.innerHTML += `
+                        <tr>
+                            <td><span class="codigo-badge">${cita.codigo}</span></td>
+                            <td>${cita.fecha}</td>
+                            <td>${cita.hora}</td>
+                            <td>Corto Plazo</td>
+                        </tr>`;
+                });
+            }
+
+            if (citasLargo.length === 0) {
+                cuerpoLargo.innerHTML = '<tr><td colspan="4">No hay citas de largo plazo agendadas.</td></tr>';
+            } else {
+                citasLargo.forEach(cita => {
+                    cuerpoLargo.innerHTML += `
+                        <tr>
+                            <td><span class="codigo-badge">${cita.codigo}</span></td>
+                            <td>${cita.fecha}</td>
+                            <td>${cita.hora}</td>
+                            <td>Largo Plazo</td>
+                        </tr>`;
+                });
+            }
+        }
+
+        // Ejecución al cargar la página
+        depurarCitasVencidas();
+    </script>
+
+</body>
+</html>
