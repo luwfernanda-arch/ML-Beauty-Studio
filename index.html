@@ -120,7 +120,7 @@
             padding-left: 1.2rem;
         }
 
-        .booking-section {
+        .booking-section, .reviews-section {
             background: white;
             padding: 2rem;
             border-radius: 8px;
@@ -194,6 +194,146 @@
 
         .btn-mapa:hover, .btn-ver-tabla:hover {
             background-color: #bc8a5f;
+        }
+
+        /* SECCIÓN RESEÑAS Y COMENTARIOS */
+        .reviews-list {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .review-card {
+            background: #fafafa;
+            padding: 1rem 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .review-stars {
+            color: #f39c12;
+            font-size: 1.1rem;
+        }
+
+        .review-text {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* ESTILOS DEL CHATBOT DE IA */
+        .ai-widget-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        .ai-widget-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat-box {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 460px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .ai-chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            background-color: #fdfdfd;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-msg.user {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-msg.bot {
+            background-color: #e9ecef;
+            color: var(--dark-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .ai-chat-footer {
+            display: flex;
+            padding: 0.5rem;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+
+        .ai-chat-footer input {
+            flex: 1;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .ai-chat-footer button {
+            grid-column: auto;
+            padding: 0.6rem 1rem;
+            margin-left: 0.5rem;
+            font-size: 0.85rem;
         }
 
         /* SECCIÓN TABLAS DE CITAS */
@@ -338,6 +478,7 @@
             <a href="#servicios">Servicios</a>
             <a href="#nosotros">Nosotros</a>
             <a href="#agendar">Agendar Cita</a>
+            <a href="#reseñas">Reseñas</a>
             <a href="#citas-agendadas">Turnos Agendados</a>
         </nav>
     </header>
@@ -346,7 +487,6 @@
     <section id="inicio" class="hero">
         <h2>Resalta tu belleza natural</h2>
         <p>Tu espacio de cuidado personal, estilo y relajación.</p>
-       
     </section>
 
     <div class="container">
@@ -377,7 +517,7 @@
         <!-- SECCIÓN NOSOTROS -->
         <section id="nosotros" class="about-section">
             <h2>Sobre ML Beauty Studio</h2>
-            <p><strong>ML Beauty Studio</strong> nació con la visión de crear un concepto único en belleza y estética, donde el cuidado personal se transforma en una experiencia de bienestar, relajación y confianza. Fundado y dirigido con pasión por nuestra especialista principal, el estudio se ha consolidado como un referente de estilo y atención personalizada.</p>
+            <p><strong>ML Beauty Studio</strong> nació con la visión de crear un concepto único en belleza y estética, donde el cuidado personal se transforma en una experiencia de bienestar, relajación y confianza. Ubicados en el <strong>barrio Magdalena de Sogamoso - Boyacá</strong>, nos hemos consolidado como un referente de estilo y atención personalizada.</p>
             
             <p>Creemos que la belleza auténtica proviene del cuidado adecuado y de resaltar las facetas únicas de cada cliente. Por ello, adaptamos cada uno de nuestros procedimientos a tus necesidades específicas, garantizando un servicio exclusivo y resultados profesionales.</p>
 
@@ -461,6 +601,41 @@
             </form>
         </section>
 
+        <!-- SECCIÓN DE COMENTARIOS Y RESEÑAS DE CLIENTES -->
+        <section id="reseñas" class="reviews-section">
+            <h2>Reseñas y Experiencias de Clientes</h2>
+            <p>Déjanos tu opinión sobre tu experiencia en ML Beauty Studio.</p>
+
+            <form id="formResena" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="nombreResena">Tu Nombre:</label>
+                    <input type="text" id="nombreResena" required placeholder="Ej. Carolina Gómez">
+                </div>
+
+                <div class="form-group">
+                    <label for="calificacion">Calificación:</label>
+                    <select id="calificacion" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                        <option value="3">⭐⭐⭐ (3/5)</option>
+                        <option value="2">⭐⭐ (2/5)</option>
+                        <option value="1">⭐ (1/5)</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="comentarioResena">Comentario:</label>
+                    <textarea id="comentarioResena" rows="3" required placeholder="Escribe aquí tu experiencia en el salón..."></textarea>
+                </div>
+
+                <button type="submit" style="grid-column: span 2;">Publicar Reseña</button>
+            </form>
+
+            <div class="reviews-list" id="listaResenas">
+                <!-- Se cargan dinámicamente -->
+            </div>
+        </section>
+
         <!-- SECCIÓN DE CONSULTA DE CITAS AGENDADAS (TABLAS PÚBLICAS) -->
         <section id="citas-agendadas" class="tabla-citas-container">
             <h2>Agenda de Turnos Confirmados</h2>
@@ -510,7 +685,7 @@
             <div class="services-grid">
                 <div class="card">
                     <h3>Dirección</h3>
-                    <p>Estamos ubicados en Sogamoso - Boyacá.</p>
+                    <p>Estamos ubicados en el barrio Magdalena, Sogamoso - Boyacá.</p>
                 </div>
                 <div class="card">
                     <h3>Nuestra Localización</h3>
@@ -520,6 +695,25 @@
             </div>
         </section>
 
+    </div>
+
+    <!-- BOTÓN Y VENTANA FLOTANTE DEL CHATBOT DE IA -->
+    <button class="ai-widget-toggle" onclick="toggleAIChat()" title="Asistente Virtual ML">🤖</button>
+
+    <div class="ai-chat-box" id="aiChatBox">
+        <div class="ai-chat-header">
+            <span>Asistente ML Beauty AI 💖</span>
+            <span style="cursor: pointer;" onclick="toggleAIChat()">✖</span>
+        </div>
+        <div class="ai-chat-body" id="aiChatBody">
+            <div class="chat-msg bot">
+                ¡Hola! Soy la inteligencia artificial de <strong>ML Beauty Studio</strong>. Puedo responder tus dudas sobre nuestros servicios especializados, tipos de tratamientos, cómo agendar, ubicación en el barrio Magdalena y mucho más. ¿En qué te asesoro hoy?
+            </div>
+        </div>
+        <div class="ai-chat-footer">
+            <input type="text" id="aiUserInput" placeholder="Pregúntame lo que quieras..." onkeypress="handleAIPress(event)">
+            <button type="button" onclick="enviarMensajeIA()">Enviar</button>
+        </div>
     </div>
 
     <!-- VENTANA EMERGENTE (MODAL) CON CÓDIGO ÚNICO -->
@@ -536,14 +730,14 @@
                 <p><strong>Clasificación:</strong> <span id="modalTipo"></span></p>
             </div>
 
-            <p style="font-size: 0.85rem; color: #666;">Presenta este código al llegar a ML Beauty Studio.</p>
+            <p style="font-size: 0.85rem; color: #666;">Presenta este código al llegar al salón.</p>
             <button type="button" class="btn-cerrar" onclick="cerrarModal()">Aceptar</button>
         </div>
     </div>
 
     <footer>
         <p><strong>ML Beauty Studio</strong> &copy; 2026 - Todos los derechos reservados.</p>
-        <p>Horario: Lunes a Sábado de 9:00 AM a 7:00 PM</p>
+        <p>Barrio Magdalena, Sogamoso - Boyacá | Horario: Lunes a Sábado de 9:00 AM a 7:00 PM</p>
     </footer>
 
     <script>
@@ -699,34 +893,139 @@
             if (citasCorto.length === 0) {
                 cuerpoCorto.innerHTML = '<tr><td colspan="4">No hay citas de corto plazo agendadas.</td></tr>';
             } else {
-                citasCorto.forEach(cita => {
-                    cuerpoCorto.innerHTML += `
-                        <tr>
-                            <td><span class="codigo-badge">${cita.codigo}</span></td>
-                            <td>${cita.fecha}</td>
-                            <td>${cita.hora}</td>
-                            <td>Corto Plazo</td>
-                        </tr>`;
-                });
+                cuerpoCorto.innerHTML = citasCorto.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Corto Plazo</td></tr>`).join('');
             }
 
             if (citasLargo.length === 0) {
                 cuerpoLargo.innerHTML = '<tr><td colspan="4">No hay citas de largo plazo agendadas.</td></tr>';
             } else {
-                citasLargo.forEach(cita => {
-                    cuerpoLargo.innerHTML += `
-                        <tr>
-                            <td><span class="codigo-badge">${cita.codigo}</span></td>
-                            <td>${cita.fecha}</td>
-                            <td>${cita.hora}</td>
-                            <td>Largo Plazo</td>
-                        </tr>`;
-                });
+                cuerpoLargo.innerHTML = citasLargo.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Largo Plazo</td></tr>`).join('');
             }
+        }
+
+        /* LÓGICA DE COMENTARIOS / RESEÑAS DE CLIENTES */
+        let resenasGuardadas = JSON.parse(localStorage.getItem('ml_resenas')) || [
+            { nombre: "Valeria Ruiz", estrellas: "5", comentario: "Excelente atención en el barrio Magdalena. Mis uñas quedaron divinas." },
+            { nombre: "Camila Torres", estrellas: "5", comentario: "El tratamiento facial me dejó la piel súper suave. Súper recomendado ML Beauty Studio." }
+        ];
+
+        const formResena = document.getElementById('formResena');
+        const listaResenas = document.getElementById('listaResenas');
+
+        function renderizarResenas() {
+            listaResenas.innerHTML = '';
+            resenasGuardadas.forEach(r => {
+                const estrellas = '⭐'.repeat(parseInt(r.estrellas));
+                listaResenas.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">${r.nombre}</span>
+                            <span class="review-stars">${estrellas}</span>
+                        </div>
+                        <p class="review-text">${r.comentario}</p>
+                    </div>
+                `;
+            });
+        }
+
+        formResena.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombreResena').value;
+            const estrellas = document.getElementById('calificacion').value;
+            const comentario = document.getElementById('comentarioResena').value;
+
+            resenasGuardadas.unshift({ nombre, estrellas, comentario });
+            localStorage.setItem('ml_resenas', JSON.stringify(resenasGuardadas));
+            renderizarResenas();
+            formResena.reset();
+        });
+
+        /* LÓGICA DEL CHATBOT DE IA INTELIGENTE Y AVANZADO */
+        function toggleAIChat() {
+            const chatBox = document.getElementById('aiChatBox');
+            chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function handleAIPress(e) {
+            if (e.key === 'Enter') enviarMensajeIA();
+        }
+
+        function enviarMensajeIA() {
+            const input = document.getElementById('aiUserInput');
+            const textoOriginal = input.value.trim();
+            const query = textoOriginal.toLowerCase();
+            if (!query) return;
+
+            const chatBody = document.getElementById('aiChatBody');
+
+            // Agregar mensaje del usuario
+            chatBody.innerHTML += `<div class="chat-msg user">${textoOriginal}</div>`;
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // IA Inteligente con análisis de múltiples palabras clave y conceptos
+            let respuesta = "Comprendo tu consulta. En ML Beauty Studio nos especializamos en realzar tu belleza natural. Puedes preguntarme específicamente por nuestros servicios de cabello, spa de uñas, tratamientos faciales, maquillaje, horarios, ubicación en Sogamoso o cómo agendar tu turno.";
+
+            // Detector de intenciones abiertas: Saludos
+            if (query.match(/hola|buenas|saludos|ola|hey|hi/)) {
+                respuesta = "¡Hola! Qué gusto saludarte 💖. Soy el asistente inteligente de ML Beauty Studio. ¿En qué te puedo colaborar hoy? Puedes consultarme sobre servicios, precios aproximados, tipos de tratamientos o cómo reservar.";
+            }
+            
+            // Detector de intenciones abiertas: Cabello / Estilismo
+            else if (query.match(/corte|pelo|cabell|peinad|tintura|mecha|balayage|repolarizacion/)) {
+                respuesta = "✂️ **Servicios Capilares y Estilismo:** Ofrecemos diseños de imagen modernos adaptados a tus tendencias. Contamos con cortes personalizados, repolarización capilar profunda, tinturas, mechas, balayage y peinados sofisticados para cualquier ocasión especial.";
+            } 
+            
+            // Detector de intenciones abiertas: Uñas / Manicura / Pedicura
+            else if (query.match(/uña|manicur|pedicur|esmalte|acrilic|gel|manos|pies/)) {
+                respuesta = "💅 **Spa de Uñas:** Cuidado integral y estético para manos y pies. Realizamos manicura y pedicura tradicional, esmaltado semipermanente de larga duración, uñas esculpidas en gel o acrílico, y hermosos diseños personalizados a mano alzada.";
+            } 
+            
+            // Detector de intenciones abiertas: Rostro / Faciales / Piel
+            else if (query.match(/facial|cara|piel|limpieza|hidratacion|exfoliacion|rejuvenecedor|acido hialuronico/)) {
+                respuesta = "🌿 **Cuidado Facial & Estética:** Diseñado para devolverle la lozanía a tu rostro. Incluye limpiezas faciales profundas, hidratación avanzada con ácido hialurónico, exfoliación y tratamientos rejuvenecedores adaptados a tu tipo de piel.";
+            } 
+            
+            // Detector de intenciones abiertas: Maquillaje
+            else if (query.match(/maquillaje|make up|boda|evento|fotograf|social/)) {
+                respuesta = "💄 **Maquillaje Profesional:** Ideal para bodas, eventos sociales o sesiones fotográficas. Destacamos tus mejores facciones utilizando técnicas profesionales de alta fijación y larga duración.";
+            } 
+            
+            // Detector de intenciones abiertas: Precios / Costos
+            else if (query.match(/precio|costo|cuanto vale|valor|tarifa|pagar/)) {
+                respuesta = "💰 Los precios varían según el servicio o la complejidad del diseño que elijas. Te invitamos a explorar nuestra sección de Servicios o contactarnos directamente en el salón para darte una cotización exacta y a la medida.";
+            } 
+            
+            // Detector de intenciones abiertas: Agendar / Reservar / Turnos / Códigos
+            else if (query.match(/agendar|cita|turno|reservar|como se hace|paso|codigo|plazo/)) {
+                respuesta = "📅 **Cómo Agendar tu Cita:**\n1. Dirígete al formulario en la sección 'Agendar Cita'.\n2. Ingresa tus datos (Nombre, Teléfono, Correo), selecciona el servicio, la fecha y la hora.\n3. Haz clic en 'Confirmar y Agendar'.\n¡Te aparecerá un código único de 3 dígitos en pantalla para presentar al llegar! También puedes consultar los turnos confirmados abajo en las tablas públicas.";
+            } 
+            
+            // Detector de intenciones abiertas: Ubicación / Dirección / Sogamoso
+            else if (query.match(/ubicacion|donde|dirección|barrio|magdalena|sogamoso|llegar|mapa/)) {
+                respuesta = "📍 Nos encontramos ubicados en el **barrio Magdalena de Sogamoso, Boyacá**. Puedes hacer clic en el botón 'Ir al mapa' ubicado en la sección inferior de la página para ver la ruta exacta y llegar sin inconvenientes.";
+            } 
+            
+            // Detector de intenciones abiertas: Horarios / Días abiertos
+            else if (query.match(/horario|hora|dia|abierto|atienden|lunes|sabado|domingo/)) {
+                respuesta = "⏰ Nuestro horario de atención en el salón es de **Lunes a Sábado, desde las 9:00 AM hasta las 7:00 PM**.";
+            } 
+            
+            // Detector de intenciones abiertas: Reseñas / Opiniones
+            else if (query.match(/reseña|comentario|opinion|calificacion|estrella/)) {
+                respuesta = "⭐ ¡Tu opinión nos importa! Puedes leer lo que otras clientas opinan o dejar tu propia reseña con calificación por estrellas en la sección 'Reseñas' del menú superior de la página.";
+            }
+
+            // Simular respuesta fluida de IA con un pequeño retraso
+            setTimeout(() => {
+                chatBody.innerHTML += `<div class="chat-msg bot">${respuesta.replace(/\n/g, '<br>')}</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 450);
         }
 
         // Ejecución al cargar la página
         depurarCitasVencidas();
+        renderizarResenas();
     </script>
 
 </body>
