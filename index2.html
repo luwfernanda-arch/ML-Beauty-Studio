@@ -3,97 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Beauty Studio | Ubicación</title>
-
+    <title>ML Beauty Studio | Ubicación y Mapa</title>
     <style>
+        /* Estilos base unificados con el Index principal */
+        :root {
+            --primary-color: #d4a373;
+            --secondary-color: #fefae0;
+            --dark-color: #333333;
+            --light-color: #faedcd;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            color: var(--dark-color);
+            /* NUEVO FONDO PERSONALIZADO CON LA IMAGEN PROPORCIONADA */
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('fondo/Gemini_Generated_Image_xmh24sxmh24sxmh2.jpg') center/cover no-repeat fixed;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
+        /* HEADER IDÉNTICO AL INDEX 1 */
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
+        .logo h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* CONTENEDOR PRINCIPAL DE UBICACIÓN */
+        .ubicacion-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid var(--light-color);
+        }
+
+        .ubicacion-container h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ubicacion-container p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* DISEÑO DEL MAPA CON BORDES REDONDEADOS */
         .mapa {
             width: 100%;
-            max-width: 900px;
-            margin: auto;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 2px solid var(--light-color);
         }
 
         iframe {
             width: 100%;
-            height: 500px;
+            height: 450px;
             border: 0;
+            display: block;
         }
 
+        /* CONTENEDOR DE BOTONES CON ANIMACIONES SUTILES */
         .contenedor-botones {
-            margin-top: 25px;
+            margin-top: 2rem;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .boton {
             display: inline-block;
-            padding: 12px 25px;
-            background: #0F9D58;
+            padding: 0.8rem 1.8rem;
+            background: #25D366; /* Verde elegante tipo mapa/contacto */
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 1rem;
             font-weight: bold;
-            transition: background 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            /* Animación suave integrada */
+            transition: all 0.3s ease;
         }
 
+        /* Animación sutil e interesante al pasar el cursor */
         .boton:hover {
-            background: #0b7d45;
+            background: #1ebe5d;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
         }
 
         .boton-inicio {
-            background: #d4a373;
+            background: var(--primary-color);
         }
 
         .boton-inicio:hover {
             background: #bc8a5f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+
+        /* FOOTER UNIFICADO */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 4rem;
         }
     </style>
 </head>
 <body>
 
-    <h1>Nuestra Ubicación</h1>
+    <!-- ENCABEZADO PARA MANTENER LA NAVEGACIÓN -->
+    <header>
+        <div class="logo">
+            <h1>ML BEAUTY STUDIO</h1>
+        </div>
+        <nav>
+            <a href="index.html#inicio">Inicio</a>
+            <a href="index.html#servicios">Servicios</a>
+            <a href="index.html#nosotros">Nosotros</a>
+            <a href="index.html#agendar">Agendar Cita</a>
+        </nav>
+    </header>
 
-    <!-- MAPA VISIBLE DE GOOGLE MAPS -->
-    <div class="mapa">
-        <iframe
-            src="https://maps.google.com/maps?q=Sogamoso%2C%20Boyaca%2C%20Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+    <!-- SECCIÓN CENTRAL DE UBICACIÓN -->
+    <div class="ubicacion-container">
+        <h2>Nuestra Ubicación</h2>
+        <p>Encuéntranos en el <strong>barrio Magdalena, Sogamoso - Boyacá</strong>. ¡Te esperamos para brindarte la mejor experiencia!</p>
+
+        <!-- MAPA VISIBLE DE GOOGLE MAPS -->
+        <div class="mapa">
+            <iframe
+                src="https://maps.google.com/maps?q=Sogamoso%2C%20Boyaca%2C%20Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <div class="contenedor-botones">
+            <!-- BOTÓN ABRIR EN GOOGLE MAPS CON ANIMACIÓN -->
+            <a class="boton"
+               href="https://maps.app.goo.gl/mtfhKUWgPEw49Shr7"
+               target="_blank">
+               📍 Abrir en Google Maps
+            </a>
+
+            <!-- BOTÓN PARA REGRESAR A LA PÁGINA PRINCIPAL -->
+            <a class="boton boton-inicio" href="index.html">
+               ← Volver al Inicio
+            </a>
+        </div>
     </div>
 
-    <div class="contenedor-botones">
-        <!-- BOTÓN CÓMO LLEGAR CORREGIDO -->
-        <a class="boton"
-           href="https://maps.app.goo.gl/mtfhKUWgPEw49Shr7"
-           target="_blank">
-           📍 Abrir en Google Maps
-        </a>
-
-        <!-- BOTÓN PARA REGRESAR A LA PÁGINA PRINCIPAL -->
-        <a class="boton boton-inicio" href="index.html">
-           ← Volver al Inicio
-        </a>
-    </div>
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <p><strong>ML Beauty Studio</strong> &copy; 2026 - Todos los derechos reservados.</p>
+        <p>Barrio Magdalena, Sogamoso - Boyacá</p>
+    </footer>
 
 </body>
 </html>

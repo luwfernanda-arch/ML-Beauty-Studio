@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ML Beauty Studio | Estilo & Elegancia</title>
     <style>
-        /* Estilos base para una apariencia moderna y elegante */
+        /* Estilos base con fondo minimalista elegante y detalles sutiles */
         :root {
             --primary-color: #d4a373;
+            --primary-hover: #bc8a5f;
             --secondary-color: #fefae0;
-            --dark-color: #333333;
+            --dark-color: #2b2b2b;
             --light-color: #faedcd;
+            --bg-light: #fdfdfb;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.06);
         }
 
         body {
@@ -18,16 +21,24 @@
             margin: 0;
             padding: 0;
             color: var(--dark-color);
-            background-color: #fafafa;
+            background-color: var(--bg-light);
+            /* Patrón de fondo minimalista elegante con detalles geométricos muy sutiles */
+            background-image: 
+                radial-gradient(var(--primary-color) 0.65px, transparent 0.65px), 
+                radial-gradient(var(--primary-color) 0.65px, var(--bg-light) 0.65px);
+            background-size: 26px 26px;
+            background-position: 0 0, 13px 13px;
+            line-height: 1.6;
         }
 
         header {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -38,6 +49,7 @@
             color: var(--primary-color);
             font-size: 1.8rem;
             letter-spacing: 2px;
+            font-weight: 700;
         }
 
         nav a {
@@ -52,86 +64,284 @@
             color: var(--primary-color);
         }
 
-        /* SECCIÓN HERO CON LA IMAGEN DE FONDO PERSONALIZADA */
+        /* SECCIÓN HERO CON CARRUSEL DE IMÁGENES AUTOMÁTICO Y MANUAL */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('Gemini_Generated_Image_dxhb4ddxhb4ddxhb.jpg') center/cover no-repeat;
+            position: relative;
             color: white;
             text-align: center;
-            padding: 6rem 1rem;
+            padding: 8rem 1rem;
+            overflow: hidden;
+            background-color: #000000;
+            
+
+            
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .hero h2 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+        }
+
+        /* Controles de flechas y puntos para el carrusel del Hero */
+        .hero-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .hero-btn.prev { left: 20px; }
+        .hero-btn.next { right: 20px; }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .hero-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
         }
 
         .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 1150px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
         }
 
-        .services-grid, .about-grid {
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 0.5rem auto 2rem auto;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Tarjetas de servicios */
+        .card-btn {
+            background: white;
+            border: none;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .card-btn h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .card-btn p {
+            margin-bottom: 0;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* Sección Nosotros */
+        .about-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            margin-top: 4rem;
+        }
+
+        .about-header-box {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 2.5rem;
+        }
+
+        .about-header-box p {
+            margin: 0 0 1rem 0;
+            font-size: 1.05rem;
+        }
+
+        .about-header-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .about-card {
+            background: #fdfdfd;
+            padding: 1.8rem;
+            border-radius: 12px;
+            border: 1px solid #f0f0f0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .about-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .detail-services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            text-align: center;
-            border-top: 4px solid var(--primary-color);
+        .detail-item {
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        /* Estilos específicos para la sección Nosotros */
-        .about-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-top: 3rem;
+        .detail-item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
         }
 
-        .about-section h2 {
-            color: var(--primary-color);
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .about-section h3 {
-            color: var(--dark-color);
-            margin-top: 1.5rem;
-        }
-
-        .about-list {
-            text-align: left;
-            line-height: 1.8;
-            padding-left: 1.2rem;
+        .detail-item-content {
+            padding: 1rem 1.2rem;
         }
 
         .booking-section, .reviews-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            margin-top: 4rem;
         }
 
         form {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
         }
 
         .form-group {
@@ -146,13 +356,21 @@
         label {
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.95rem;
         }
 
         input, select, textarea {
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 0.85rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            background: #fff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
         }
 
         button {
@@ -161,15 +379,15 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s, opacity 0.3s;
+            transition: background 0.3s, transform 0.2s;
         }
 
-        button:hover {
-            background-color: #bc8a5f;
+        button:hover:not(:disabled) {
+            background-color: var(--primary-hover);
         }
 
         button:disabled {
@@ -181,11 +399,11 @@
         .btn-mapa, .btn-ver-tabla {
             display: inline-block;
             margin-top: 1rem;
-            padding: 0.6rem 1.2rem;
+            padding: 0.7rem 1.4rem;
             background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
             transition: background 0.3s;
             border: none;
@@ -193,22 +411,23 @@
         }
 
         .btn-mapa:hover, .btn-ver-tabla:hover {
-            background-color: #bc8a5f;
+            background-color: var(--primary-hover);
         }
 
-        /* SECCIÓN RESEÑAS Y COMENTARIOS */
+        /* Reseñas */
         .reviews-list {
             margin-top: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .review-card {
-            background: #fafafa;
-            padding: 1rem 1.5rem;
+            background: #fdfbf7;
+            padding: 1.2rem 1.6rem;
             border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
         .review-header {
@@ -234,38 +453,38 @@
             line-height: 1.5;
         }
 
-        /* ESTILOS DEL CHATBOT DE IA */
+        /* Chatbot de IA */
         .ai-widget-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            width: 65px;
+            height: 65px;
+            font-size: 2rem;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.2s;
         }
 
         .ai-widget-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .ai-chat-box {
             display: none;
             position: fixed;
-            bottom: 90px;
-            right: 20px;
+            bottom: 100px;
+            right: 25px;
             width: 350px;
             height: 460px;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             flex-direction: column;
             z-index: 1000;
             overflow: hidden;
@@ -316,7 +535,7 @@
 
         .ai-chat-footer {
             display: flex;
-            padding: 0.5rem;
+            padding: 0.6rem;
             border-top: 1px solid #eee;
             background: white;
         }
@@ -336,13 +555,13 @@
             font-size: 0.85rem;
         }
 
-        /* SECCIÓN TABLAS DE CITAS */
+        /* Tablas */
         .tabla-citas-container {
-            margin-top: 3rem;
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-top: 4rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
             text-align: center;
         }
 
@@ -350,10 +569,13 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 1.5rem;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #fff;
         }
 
         th, td {
-            padding: 0.8rem;
+            padding: 0.9rem;
             border: 1px solid #eee;
             text-align: center;
         }
@@ -361,6 +583,7 @@
         th {
             background-color: var(--primary-color);
             color: white;
+            font-weight: 600;
         }
 
         tr:nth-child(even) {
@@ -392,11 +615,11 @@
             background-color: var(--dark-color);
             color: white;
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
+            padding: 2rem;
+            margin-top: 4rem;
         }
 
-        /* ESTILOS DE LA VENTANA EMERGENTE (MODAL) */
+        /* Modales de galería */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -413,11 +636,11 @@
         .modal-content {
             background: white;
             padding: 2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             max-width: 450px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             animation: fadeIn 0.3s ease-in-out;
         }
 
@@ -461,11 +684,174 @@
             cursor: pointer;
         }
 
+        .service-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 14px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: fadeIn 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .service-modal-content h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        .gallery-container {
+            position: relative;
+            margin: 1.2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            transform: scale(0.98);
+        }
+
+        .gallery-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+        }
+
+        .gallery-info-box {
+            margin-top: 0.8rem;
+            background-color: var(--secondary-color);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #e2dac7;
+        }
+
+        .gallery-caption {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .gallery-price {
+            margin: 0.3rem 0 0 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .gallery-btn.prev { left: 15px; }
+        .gallery-btn.next { right: 15px; }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-    </style>
+
+        @media (max-width: 768px) {
+            form { grid-template-columns: 1fr; }
+            .form-group.full-width, button { grid-column: span 1; }
+            header { flex-direction: column; gap: 1rem; }
+            nav a { margin: 0 0.5rem; }
+            .gallery-container { height: 240px; }
+        }
+        .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el icono y el texto */
+    background-color: #25D366;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.whatsapp-btn i {
+    font-size: 18px; /* Tamaño del icono */
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+    transform: scale(1.03); /* Efecto leve al pasar el cursor */
+}
+        
+        <!-- Carga de Font Awesome para los iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+   /* Ajusta el contenedor grid */
+.detail-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Centra el elemento en la segunda fila */
+.detail-services-grid .detail-item.featured-item {
+    grid-column: 2; /* Se posiciona en la columna central */
+}
+
+/* En pantallas pequeñas (celulares) vuelve al diseño estándar */
+@media (max-width: 768px) {
+    .detail-services-grid {
+        grid-template-columns: 1fr;
+    }
+    .detail-services-grid .detail-item.featured-item {
+        grid-column: auto;
+    }
+    .detail-services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra los elementos restantes */
+    gap: 20px;
+}
+
+.detail-item {
+    flex: 1 1 300px; /* Tamaño base flexible para cada tarjeta */
+    max-width: 380px;
+}
+}
+   </style>
 </head>
 <body>
 
@@ -483,72 +869,140 @@
         </nav>
     </header>
 
-    <!-- BANNER HERO CON LA NUEVA IMAGEN DE FONDO -->
+    <!-- BANNER HERO CON CARRUSEL AUTOMÁTICO E INTERACTIVO DE FONDOS -->
     <section id="inicio" class="hero">
-        <h2>Resalta tu belleza natural</h2>
-        <p>Tu espacio de cuidado personal, estilo y relajación.</p>
+        <!-- Diapositivas de fondo del carrusel -->
+        <div class="hero-slide active" style="background-image: url('Gemini_Generated_Image_dxhb4ddxhb4ddxhb.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('Gemini_Generated_Image_swysfjswysfjswys.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('Gemini_Generated_Image_z39j2oz39j2oz39j.jpg');"></div>
+        <div class="hero-slide" style="background-image: url('Gemini_Generated_Image_2vzpx52vzpx52vzp.jpg');"></div>
+        
+        <div class="hero-overlay"></div>
+
+        <!-- Botones de navegación manual por flechas -->
+        <button class="hero-btn prev" onclick="cambiarHeroSlide(-1)">&#10094;</button>
+        <button class="hero-btn next" onclick="cambiarHeroSlide(1)">&#10095;</button>
+
+        <div class="hero-content">
+            <h2>Resalta tu belleza natural</h2>
+            <p>Tu espacio de cuidado personal, estilo y relajación.</p>
+        </div>
+
+        <!-- Puntos indicadores inferiores -->
+        <div class="hero-dots">
+            <button class="hero-dot active" onclick="irAHeroSlide(0)"></button>
+            <button class="hero-dot" onclick="irAHeroSlide(1)"></button>
+            <button class="hero-dot" onclick="irAHeroSlide(2)"></button>
+            <button class="hero-dot" onclick="irAHeroSlide(3)"></button>
+        </div>
     </section>
 
     <div class="container">
         
         <!-- SECCIÓN SERVICIOS -->
         <section id="servicios">
-            <h2 style="text-align: center;">Nuestros Servicios</h2>
+            <h2 class="section-title">Nuestros Servicios</h2>
             <div class="services-grid">
-                <div class="card">
-                    <h3>Corte & Peinado</h3>
-                    <p>Diseño de imagen adaptado a tu estilo y tendencias actuales.</p>
-                </div>
-                <div class="card">
-                    <h3>Manicura & Pedicura</h3>
-                    <p>Cuidado integral de manos y pies con productos de alta gama.</p>
-                </div>
-                <div class="card">
-                    <h3>Tratamientos Faciales</h3>
-                    <p>Limpieza profunda e hidratación para devolverle el brillo a tu piel.</p>
-                </div>
-                <div class="card">
-                    <h3>Maquillaje Profesional</h3>
-                    <p>Ideal para eventos especiales, bodas y sesiones fotográficas.</p>
-                </div>
+                <!-- Botón Servicio 1: Corte & Peinado -->
+                <button type="button" class="card-btn" onclick="abrirModalServicio('modalCorte')">
+                    <img src="corte y peinado 3.jpg" alt="Peinados y Cortes" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80'">
+                    <div class="card-body">
+                        <h3>Corte & Peinado</h3>
+                        <p>Diseño de imagen adaptado a tu estilo y tendencias actuales.</p>
+                    </div>
+                </button>
+
+                <!-- Botón Servicio 2: Manicura & Pedicura -->
+                <button type="button" class="card-btn" onclick="abrirModalServicio('modalUñas')">
+                    <img src="C:/Users/Computer/Downloads/ML Beauty Studio/trabajos/uñas/uñas1.jpg" alt="Manicura y Uñas" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=600&q=80'">
+                    <div class="card-body">
+                        <h3>Manicura & Pedicura</h3>
+                        <p>Cuidado integral de manos y pies con productos de alta gama.</p>
+                    </div>
+                </button>
+
+                <!-- Botón Servicio 3: Tratamientos Faciales -->
+                <button type="button" class="card-btn" onclick="abrirModalServicio('modalFacial')">
+                    <img src="tratamiento facial 4.jpg" alt="Tratamientos Faciales" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80'">
+                    <div class="card-body">
+                        <h3>Tratamientos Faciales</h3>
+                        <p>Limpieza profunda e hidratación para devolverle el brillo a tu piel.</p>
+                    </div>
+                </button>
+
+                <!-- Botón Servicio 4: Maquillaje Profesional -->
+                <button type="button" class="card-btn" onclick="abrirModalServicio('modalMaquillaje')">
+                    <img src="maquillaje profesional.jpg" alt="Maquillaje Profesional" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=600&q=80'">
+                    <div class="card-body">
+                        <h3>Maquillaje Profesional</h3>
+                        <p>Ideal para eventos especiales, bodas y sesiones fotográficas.</p>
+                    </div>
+                </button>
             </div>
         </section>
 
         <!-- SECCIÓN NOSOTROS -->
         <section id="nosotros" class="about-section">
-            <h2>Sobre ML Beauty Studio</h2>
-            <p><strong>ML Beauty Studio</strong> nació con la visión de crear un concepto único en belleza y estética, donde el cuidado personal se transforma en una experiencia de bienestar, relajación y confianza. Ubicados en el <strong>barrio Magdalena de Sogamoso - Boyacá</strong>, nos hemos consolidado como un referente de estilo y atención personalizada.</p>
+            <h2 class="section-title">Sobre ML Beauty Studio</h2>
             
-            <p>Creemos que la belleza auténtica proviene del cuidado adecuado y de resaltar las facetas únicas de cada cliente. Por ello, adaptamos cada uno de nuestros procedimientos a tus necesidades específicas, garantizando un servicio exclusivo y resultados profesionales.</p>
+            <div class="about-header-box">
+                <p><strong>ML Beauty Studio</strong> nació con la visión de crear un concepto único en belleza y estética, donde el cuidado personal se transforma en una experiencia de bienestar, relajación y confianza. Ubicados en el <strong>barrio Magdalena de Sogamoso - Boyacá</strong>, nos hemos consolidado como un referente de estilo y atención personalizada[cite: 2].</p>
+                <p>Creemos que la belleza auténtica proviene del cuidado adecuado y de resaltar las facetas únicas de cada cliente. Por ello, adaptamos cada uno de nuestros procedimientos a tus necesidades específicas, garantizando un servicio exclusivo y resultados profesionales[cite: 2].</p>
+            </div>
 
             <div class="about-grid">
-                <div class="card">
+                <div class="about-card">
+                    <span class="icon">✨</span>
                     <h3>Atención Personalizada</h3>
-                    <p>Realizamos un diagnóstico previo para ofrecerte soluciones a la medida de tu estilo y tipo de piel o cabello.</p>
+                    <p>Realizamos un diagnóstico previo para ofrecerte soluciones a la medida de tu estilo y tipo de piel o cabello[cite: 2].</p>
                 </div>
-                <div class="card">
+                <div class="about-card">
+                    <span class="icon">🌿</span>
                     <h3>Productos de Alta Calidad</h3>
-                    <p>Trabajamos únicamente con marcas reconocidas para proteger y nutrir tu piel y cabello en cada procedimiento.</p>
+                    <p>Trabajamos únicamente con marcas reconocidas para proteger y nutrir tu piel y cabello en cada procedimiento[cite: 2].</p>
                 </div>
-                <div class="card">
+                <div class="about-card">
+                    <span class="icon">🛡️</span>
                     <h3>Higiene y Confort</h3>
-                    <p>Garantizamos un espacio acogedor y con altos estándares de esterilización para tu completa tranquilidad.</p>
+                    <p>Garantizamos un espacio acogedor y con altos estándares de esterilización para tu completa tranquilidad[cite: 2].</p>
                 </div>
             </div>
 
-            <h3 style="text-align: center; margin-top: 2.5rem;">Detalles de Nuestros Servicios Proporcionados</h3>
-            <ul class="about-list">
-                <li><strong>Estilismo & Capilar:</strong> Cortes modernos, repolarización capilar, tinturas, mechas, balayage y peinados para todo tipo de ocasión.</li>
-                <li><strong>Spa de Uñas:</strong> Manicura y pedicura tradicional, semipermanente, esculpidas en gel y acrílico con diseños personalizados a mano alzada.</li>
-                <li><strong>Cuidado Facial & Estética:</strong> Limpiezas faciales profundas, hidratación con ácido hialurónico, exfoliación y tratamientos rejuvenecedores.</li>
-                <li><strong>Maquillaje & Eventos:</strong> Maquillaje social, de novia y para fotografía, destacando tus facciones con técnicas de larga duración.</li>
-            </ul>
-        </section>
-
+            <h3 style="text-align: center; margin-top: 3rem; font-size: 1.6rem; color: var(--primary-color);">Detalles de Nuestros Servicios Proporcionados</h3>
+ 
+<div class="detail-services-grid">
+    <div class="detail-item">
+        <img src="corte y peinado 3.jpg" alt="Estilismo Capilar" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=500&q=80'">
+        <div class="detail-item-content">
+            <p><strong>Estilismo & Capilar:</strong> Cortes modernos, repolarización capilar, tinturas, mechas, balayage y peinados para todo tipo de ocasión.</p>
+        </div>
+    </div>
+    <div class="detail-item">
+        <img src="C:/Users/Computer/Downloads/ML Beauty Studio/trabajos/uñas/spa_uñas.jpg" alt="Spa de Uñas" onerror="this.src='https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=500&q=80'">
+        <div class="detail-item-content">
+            <p><strong>Spa de Uñas:</strong> Manicura y pedicura tradicional, semipermanente, esculpidas en gel y acrílico con diseños personalizados a mano alzada.</p>
+        </div>
+    </div>
+    <div class="detail-item">
+        <img src="tratamiento facial 4.jpg" alt="Cuidado Facial" onerror="this.src='https://images.unsplash.com/photo-1512290900673-700249829367?auto=format&fit=crop&w=500&q=80'">
+        <div class="detail-item-content">
+            <p><strong>Cuidado Facial & Estética:</strong> Limpiezas faciales profundas, hidratación con ácido hialurónico, exfoliación y tratamientos rejuvenecedores.</p>
+        </div>
+    </div>
+    
+    
+    <!-- Última tarjeta centrada añadiendo la clase 'featured-item' -->
+    <div class="detail-item featured-item">
+        <img src="maquillaje profesional 3.jpg" alt="Maquillaje" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=500&q=80'">
+        <div class="detail-item-content">
+            <p><strong>Maquillaje & Eventos:</strong> Maquillaje social, de novia y para fotografía, destacando tus facciones con técnicas de larga duración.</p>
+        </div>
+    </div>
+</div>
         <!-- SECCIÓN AGENDAR CITA -->
         <section id="agendar" class="booking-section">
-            <h2>Agenda tu Cita</h2>
-            <p>Selecciona el servicio y la fecha que mejor se adapten a tu horario.</p>
+            <h2 class="section-title">Agenda tu Cita</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">Selecciona el servicio y la fecha que mejor se adapten a tu horario.</p>
 
             <div id="mensajeCupoLleno" class="mensaje-alerta">
                 Nuestro cronograma se encuentra lleno para esta modalidad y no podemos agendarte en este momento. ¡Vuelve pronto o selecciona otra fecha!
@@ -603,10 +1057,10 @@
 
         <!-- SECCIÓN DE COMENTARIOS Y RESEÑAS DE CLIENTES -->
         <section id="reseñas" class="reviews-section">
-            <h2>Reseñas y Experiencias de Clientes</h2>
-            <p>Déjanos tu opinión sobre tu experiencia en ML Beauty Studio.</p>
+            <h2 class="section-title">Reseñas y Experiencias de Clientes</h2>
+            <p style="text-align: center; color: #666;">Déjanos tu opinión sobre tu experiencia en ML Beauty Studio.</p>
 
-            <form id="formResena" style="margin-top: 1.5rem;">
+            <form id="formResena">
                 <div class="form-group">
                     <label for="nombreResena">Tu Nombre:</label>
                     <input type="text" id="nombreResena" required placeholder="Ej. Carolina Gómez">
@@ -628,27 +1082,24 @@
                     <textarea id="comentarioResena" rows="3" required placeholder="Escribe aquí tu experiencia en el salón..."></textarea>
                 </div>
 
-                <button type="submit" style="grid-column: span 2;">Publicar Reseña</button>
+                <button type="submit">Publicar Reseña</button>
             </form>
 
-            <div class="reviews-list" id="listaResenas">
-                <!-- Se cargan dinámicamente -->
-            </div>
+            <div class="reviews-list" id="listaResenas"></div>
         </section>
 
-        <!-- SECCIÓN DE CONSULTA DE CITAS AGENDADAS (TABLAS PÚBLICAS) -->
+        <!-- SECCIÓN DE CONSULTA DE CITAS AGENDADAS -->
         <section id="citas-agendadas" class="tabla-citas-container">
-            <h2>Agenda de Turnos Confirmados</h2>
-            <p>Consulta el estado de los turnos reservados sin exponer datos personales.</p>
+            <h2 class="section-title">Agenda de Turnos Confirmados</h2>
+            <p style="color: #666;">Consulta el estado de los turnos reservados sin exponer datos personales.</p>
 
-            <div style="margin-bottom: 1rem;">
+            <div style="margin-bottom: 1rem; margin-top: 1.5rem;">
                 <button type="button" class="btn-ver-tabla" onclick="alternarTabla('corto')">Citas Corto Plazo (&le; 31 Días)</button>
                 <button type="button" class="btn-ver-tabla" style="background-color: #333;" onclick="alternarTabla('largo')">Citas Largo Plazo (&gt; 31 Días)</button>
             </div>
 
-            <!-- TABLA CORTO PLAZO -->
             <div id="contenedorTablaCorto" style="display: none; margin-top: 1.5rem;">
-                <h3>Citas a Corto Plazo (Próximos 31 días)</h3>
+                <h3 style="color: var(--primary-color);">Citas a Corto Plazo (Próximos 31 días)</h3>
                 <table>
                     <thead>
                         <tr>
@@ -662,9 +1113,8 @@
                 </table>
             </div>
 
-            <!-- TABLA LARGO PLAZO -->
             <div id="contenedorTablaLargo" style="display: none; margin-top: 1.5rem;">
-                <h3>Citas a Largo Plazo (Más de 31 días)</h3>
+                <h3 style="color: var(--primary-color);">Citas a Largo Plazo (Más de 31 días)</h3>
                 <table>
                     <thead>
                         <tr>
@@ -680,24 +1130,109 @@
         </section>
 
         <!-- SECCIÓN UBICACIÓN -->
-        <section id="localizacion" style="margin-top: 3rem;">
-            <h2 style="text-align: center;">Nuestra Ubicación</h2>
+        <section id="localizacion" style="margin-top: 4rem;">
+            <h2 class="section-title">Nuestra Ubicación</h2>
             <div class="services-grid">
                 <div class="card">
-                    <h3>Dirección</h3>
-                    <p>Estamos ubicados en el barrio Magdalena, Sogamoso - Boyacá.</p>
+                    <div class="card-body" style="text-align: center;">
+                        <h3>Dirección</h3>
+                        <p>Estamos ubicados en el barrio Magdalena, Sogamoso - Boyacá[cite: 2].</p>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3>Nuestra Localización</h3>
-                    <p>Consulta nuestro mapa interactivo para llegar fácilmente.</p>
-                    <a href="index2.html" class="btn-mapa">Ir al mapa</a>
+                    <div class="card-body" style="text-align: center;">
+                        <h3>Nuestra Localización</h3>
+                        <p>Consulta nuestro mapa interactivo para llegar fácilmente.</p>
+                        <a href="index2.html" class="btn-mapa">Ir al mapa</a>
+                    </div>
                 </div>
             </div>
         </section>
 
     </div>
 
-    <!-- BOTÓN Y VENTANA FLOTANTE DEL CHATBOT DE IA -->
+    <!-- VENTANAS EMERGENTES (MODALES) DE GALERÍA -->
+    
+    <!-- Modal 1: Corte & Peinado -->
+    <div id="modalCorte" class="modal-overlay">
+        <div class="service-modal-content">
+            <h3>Galería: Cortes & Peinados</h3>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="cambiarSlide('corte', -1)">&#10094;</button>
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\corte y peinado 3.jpg" alt="Peinado elaborado y rizos" class="gallery-slide active" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\corte y peinado 4.jpg" alt="Corte en capas y cepillado" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\corte y peinado 5.jpg" alt="Corte y peinado en ondas" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=700&q=80'">
+                <button class="gallery-btn next" onclick="cambiarSlide('corte', 1)">&#10095;</button>
+            </div>
+            <div class="gallery-info-box">
+                <p class="gallery-caption" id="caption-corte">Peinado social y rizos definidos</p>
+                <p class="gallery-price" id="price-corte">$ 45.000 COP</p>
+            </div>
+            <button type="button" class="btn-cerrar" style="margin-top: 1rem;" onclick="cerrarModalServicio('modalCorte')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal 2: Manicura & Pedicura -->
+    <div id="modalUñas" class="modal-overlay">
+        <div class="service-modal-content">
+            <h3>Galería: Manicura & Pedicura</h3>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="cambiarSlide('uñas', -1)">&#10094;</button>
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\uñas 5.jpeg" alt="Esmaltado semipermanente" class="gallery-slide active" onerror="this.src='https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\uñas.jpeg" alt="Uñas acrílicas con diseño" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\uñas 3.jpeg" alt="Pedicura completa" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=700&q=80'">
+                <button class="gallery-btn next" onclick="cambiarSlide('uñas', 1)">&#10095;</button>
+            </div>
+            <div class="gallery-info-box">
+                <p class="gallery-caption" id="caption-uñas">Manicura semipermanente impecable</p>
+                <p class="gallery-price" id="price-uñas">$ 35.000 COP</p>
+            </div>
+            <button type="button" class="btn-cerrar" style="margin-top: 1rem;" onclick="cerrarModalServicio('modalUñas')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal 3: Tratamientos Faciales -->
+    <div id="modalFacial" class="modal-overlay">
+        <div class="service-modal-content">
+            <h3>Galería: Tratamientos Faciales</h3>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="cambiarSlide('facial', -1)">&#10094;</button>
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\tratamiento facial 5.jpg" alt="Aparatología facial" class="gallery-slide active" onerror="this.src='https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\tratamiento facial 4.jpg" alt="Limpieza e hidratación facial" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1512290900673-700249829367?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\tratamiento facial 3.jpg" alt="Limpieza e hidratación facial" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1512290900673-700249829367?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\tratamiento facial 2.jpg" alt="Limpieza e hidratación facial" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1512290900673-700249829367?auto=format&fit=crop&w=700&q=80'">
+                <button class="gallery-btn next" onclick="cambiarSlide('facial', 1)">&#10095;</button>
+            </div>
+            <div class="gallery-info-box">
+                <p class="gallery-caption" id="caption-facial">Limpieza facial profunda con aparatología</p>
+                <p class="gallery-price" id="price-facial">$ 80.000 COP</p>
+            </div>
+            <button type="button" class="btn-cerrar" style="margin-top: 1rem;" onclick="cerrarModalServicio('modalFacial')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal 4: Maquillaje Profesional -->
+    <div id="modalMaquillaje" class="modal-overlay">
+        <div class="service-modal-content">
+            <h3>Galería: Maquillaje Profesional</h3>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="cambiarSlide('maquillaje', -1)">&#10094;</button>
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\maquillaje profesional 5.jpg" alt="Aplicación de maquillaje" class="gallery-slide active" onerror="this.src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\maquillaje profesional 4.jpg" alt="Maquillaje vibrante de ojos" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\maquillaje profesional 3.jpg" alt="Maquillaje social neutro" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\maquillaje profesional 2.jpg" alt="Maquillaje editorial" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80'">
+                <img src="C:\Users\Computer\Downloads\ML Beauty Studio\trabajos\maquillaje profesional.jpg" alt="Difuminado de sombras" class="gallery-slide" onerror="this.src='https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=700&q=80'">
+                <button class="gallery-btn next" onclick="cambiarSlide('maquillaje', 1)">&#10095;</button>
+            </div>
+            <div class="gallery-info-box">
+                <p class="gallery-caption" id="caption-maquillaje">Preparación y sombras profesionales</p>
+                <p class="gallery-price" id="price-maquillaje">$ 90.000 COP</p>
+            </div>
+            <button type="button" class="btn-cerrar" style="margin-top: 1rem;" onclick="cerrarModalServicio('modalMaquillaje')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- CHATBOT DE IA -->
     <button class="ai-widget-toggle" onclick="toggleAIChat()" title="Asistente Virtual ML">🤖</button>
 
     <div class="ai-chat-box" id="aiChatBox">
@@ -707,7 +1242,7 @@
         </div>
         <div class="ai-chat-body" id="aiChatBody">
             <div class="chat-msg bot">
-                ¡Hola! Soy la inteligencia artificial de <strong>ML Beauty Studio</strong>. Puedo responder tus dudas sobre nuestros servicios especializados, tipos de tratamientos, cómo agendar, ubicación en el barrio Magdalena y mucho más. ¿En qué te asesoro hoy?
+                ¡Hola! Soy la inteligencia artificial de <strong>ML Beauty Studio</strong>. Puedo responder tus dudas sobre nuestros servicios especializados, precios, cómo agendar, ubicación en el barrio Magdalena y mucho más. ¿En qué te asesoro hoy?[cite: 2]
             </div>
         </div>
         <div class="ai-chat-footer">
@@ -716,7 +1251,7 @@
         </div>
     </div>
 
-    <!-- VENTANA EMERGENTE (MODAL) CON CÓDIGO ÚNICO -->
+    <!-- MODAL DE CITA AGENDADA -->
     <div id="modalCita" class="modal-overlay">
         <div class="modal-content">
             <h3>¡Cita Agendada con Éxito!</h3>
@@ -735,22 +1270,60 @@
         </div>
     </div>
 
-    <footer>
-        <p><strong>ML Beauty Studio</strong> &copy; 2026 - Todos los derechos reservados.</p>
-        <p>Barrio Magdalena, Sogamoso - Boyacá | Horario: Lunes a Sábado de 9:00 AM a 7:00 PM</p>
-    </footer>
+   <footer>
+    <p><strong>ML Beauty Studio</strong> &copy; 2026 - Todos los derechos reservados.</p>
+    <p>Barrio Magdalena, Sogamoso - Boyacá | Horario: Lunes a Sábado de 9:00 AM a 7:00 PM</p>
+    
+    <!-- Botón de WhatsApp con Icono -->
+    <p>
+        <a href="https://wa.me/573204064234" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> WhatsApp: 320 406 4234
+        </a>
+    </p>
+</footer>
 
     <script>
+        /* LÓGICA DEL CARRUSEL AUTOMÁTICO E INTERACTIVO DEL HERO */
+        let currentHeroSlide = 0;
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDots = document.querySelectorAll('.hero-dot');
+        let heroInterval = setInterval(autoSlideHero, 4000); // Cambia cada 4 segundos
+
+        function mostrarHeroSlide(index) {
+            heroSlides.forEach(slide => slide.classList.remove('active'));
+            heroDots.forEach(dot => dot.classList.remove('active'));
+
+            currentHeroSlide = (index + heroSlides.length) % heroSlides.length;
+
+            heroSlides[currentHeroSlide].classList.add('active');
+            heroDots[currentHeroSlide].classList.add('active');
+        }
+
+        function cambiarHeroSlide(direccion) {
+            clearInterval(heroInterval);
+            mostrarHeroSlide(currentHeroSlide + direccion);
+            heroInterval = setInterval(autoSlideHero, 4000);
+        }
+
+        function irAHeroSlide(index) {
+            clearInterval(heroInterval);
+            mostrarHeroSlide(index);
+            heroInterval = setInterval(autoSlideHero, 4000);
+        }
+
+        function autoSlideHero() {
+            mostrarHeroSlide(currentHeroSlide + 1);
+        }
+
+        /* LÓGICA DE CITAS Y FORMULARIO */
         const MAX_CITAS = 10;
         const form = document.getElementById('formCita');
         const btnSubmit = document.getElementById('btnSubmit');
         const inputsRequeridos = form.querySelectorAll('[required]');
         const mensajeCupo = document.getElementById('mensajeCupoLleno');
 
-        // Cargar citas guardadas previamente en localStorage
         let citasRegistradas = JSON.parse(localStorage.getItem('ml_citas')) || [];
 
-        // Eliminar citas que ya se hayan cumplido
         function depurarCitasVencidas() {
             const ahora = new Date();
             citasRegistradas = citasRegistradas.filter(cita => {
@@ -760,7 +1333,6 @@
             localStorage.setItem('ml_citas', JSON.stringify(citasRegistradas));
         }
 
-        // Calcula cuántos días hay entre hoy y la fecha elegida
         function obtenerDiferenciaDias(fechaStr) {
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
@@ -769,10 +1341,8 @@
             return Math.ceil(diferenciaMS / (1000 * 60 * 60 * 24));
         }
 
-        // Validar formulario y comprobar cupos de 10 citas
         function validarFormulario() {
             depurarCitasVencidas();
-            
             let todosLlenos = true;
             inputsRequeridos.forEach(input => {
                 if (!input.value.trim()) todosLlenos = false;
@@ -784,7 +1354,6 @@
             if (fechaInput) {
                 const dias = obtenerDiferenciaDias(fechaInput);
                 const esCortoPlazo = dias <= 31;
-
                 const totalCorto = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) <= 31).length;
                 const totalLargo = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) > 31).length;
 
@@ -807,7 +1376,6 @@
             input.addEventListener('change', validarFormulario);
         });
 
-        // Generar un código único de 3 dígitos
         function generarCodigoUnico() {
             let codigo;
             let existe = false;
@@ -819,10 +1387,8 @@
             return codigo;
         }
 
-        // Procesar agendamiento
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-
             if (btnSubmit.disabled) return;
 
             depurarCitasVencidas();
@@ -830,7 +1396,6 @@
             const horaVal = document.getElementById('hora').value;
             const dias = obtenerDiferenciaDias(fechaVal);
             const esCortoPlazo = dias <= 31;
-
             const citasCategoria = citasRegistradas.filter(c => (obtenerDiferenciaDias(c.fecha) <= 31) === esCortoPlazo);
 
             if (citasCategoria.length >= MAX_CITAS) {
@@ -840,19 +1405,11 @@
             }
 
             const codigoGenerado = generarCodigoUnico();
-            const nuevaCita = {
-                codigo: codigoGenerado,
-                fecha: fechaVal,
-                hora: horaVal
-            };
-
-            citasRegistradas.push(nuevaCita);
+            citasRegistradas.push({ codigo: codigoGenerado, fecha: fechaVal, hora: horaVal });
             localStorage.setItem('ml_citas', JSON.stringify(citasRegistradas));
 
-            // Actualizar tablas visibles
             actualizarTablas();
 
-            // Desplegar datos en el modal emergente
             document.getElementById('modalCodigo').innerText = codigoGenerado;
             document.getElementById('modalFecha').innerText = fechaVal;
             document.getElementById('modalHora').innerText = horaVal;
@@ -890,20 +1447,70 @@
             const citasCorto = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) <= 31);
             const citasLargo = citasRegistradas.filter(c => obtenerDiferenciaDias(c.fecha) > 31);
 
-            if (citasCorto.length === 0) {
-                cuerpoCorto.innerHTML = '<tr><td colspan="4">No hay citas de corto plazo agendadas.</td></tr>';
-            } else {
-                cuerpoCorto.innerHTML = citasCorto.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Corto Plazo</td></tr>`).join('');
-            }
+            cuerpoCorto.innerHTML = citasCorto.length === 0 ? '<tr><td colspan="4">No hay citas de corto plazo agendadas.</td></tr>' :
+                citasCorto.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Corto Plazo</td></tr>`).join('');
 
-            if (citasLargo.length === 0) {
-                cuerpoLargo.innerHTML = '<tr><td colspan="4">No hay citas de largo plazo agendadas.</td></tr>';
-            } else {
-                cuerpoLargo.innerHTML = citasLargo.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Largo Plazo</td></tr>`).join('');
-            }
+            cuerpoLargo.innerHTML = citasLargo.length === 0 ? '<tr><td colspan="4">No hay citas de largo plazo agendadas.</td></tr>' :
+                citasLargo.map(c => `<tr><td><span class="codigo-badge">${c.codigo}</span></td><td>${c.fecha}</td><td>${c.hora}</td><td>Largo Plazo</td></tr>`).join('');
         }
 
-        /* LÓGICA DE COMENTARIOS / RESEÑAS DE CLIENTES */
+        /* LÓGICA DE GALERÍAS EN MODALES */
+        const galeriasEstado = { corte: 0, uñas: 0, facial: 0, maquillaje: 0 };
+
+        const datosGaleria = {
+            corte: [
+                { desc: "Peinado social y rizos definidos", precio: "$ 45.000 COP" },
+                { desc: "Corte en capas y cepillado profesional", precio: "$ 40.000 COP" },
+                { desc: "Corte y peinado con ondas elegantes", precio: "$ 50.000 COP" }
+            ],
+            uñas: [
+                { desc: "Manicura semipermanente impecable", precio: "$ 35.000 COP" },
+                { desc: "Uñas acrílicas con diseños personalizados", precio: "$ 70.000 COP" },
+                { desc: "Pedicura completa tipo spa", precio: "$ 50.000 COP" }
+            ],
+            facial: [
+                { desc: "Limpieza facial profunda con aparatología", precio: "$ 80.000 COP" },
+                { desc: "Hidratación y nutrición facial profunda", precio: "$ 95.000 COP" }
+            ],
+            maquillaje: [
+                { desc: "Preparación y sombras profesionales", precio: "$ 90.000 COP" },
+                { desc: "Maquillaje de ojos con tonos vibrantes", precio: "$ 85.000 COP" },
+                { desc: "Maquillaje social estilo neutro glam", precio: "$ 90.000 COP" },
+                { desc: "Maquillaje para fotografía y eventos", precio: "$ 100.000 COP" },
+                { desc: "Difuminado y técnica de sombras especial", precio: "$ 95.000 COP" }
+            ]
+        };
+
+        function abrirModalServicio(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function cerrarModalServicio(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function cambiarSlide(categoria, direccion) {
+            const modal = document.getElementById(
+                categoria === 'corte' ? 'modalCorte' :
+                categoria === 'uñas' ? 'modalUñas' :
+                categoria === 'facial' ? 'modalFacial' : 'modalMaquillaje'
+            );
+            const slides = modal.querySelectorAll('.gallery-slide');
+            const caption = modal.querySelector('.gallery-caption');
+            const price = modal.querySelector('.gallery-price');
+
+            slides[galeriasEstado[categoria]].classList.remove('active');
+            galeriasEstado[categoria] += direccion;
+
+            if (galeriasEstado[categoria] >= slides.length) galeriasEstado[categoria] = 0;
+            else if (galeriasEstado[categoria] < 0) galeriasEstado[categoria] = slides.length - 1;
+
+            slides[galeriasEstado[categoria]].classList.add('active');
+            caption.innerText = datosGaleria[categoria][galeriasEstado[categoria]].desc;
+            price.innerText = datosGaleria[categoria][galeriasEstado[categoria]].precio;
+        }
+
+        /* RESEÑAS */
         let resenasGuardadas = JSON.parse(localStorage.getItem('ml_resenas')) || [
             { nombre: "Valeria Ruiz", estrellas: "5", comentario: "Excelente atención en el barrio Magdalena. Mis uñas quedaron divinas." },
             { nombre: "Camila Torres", estrellas: "5", comentario: "El tratamiento facial me dejó la piel súper suave. Súper recomendado ML Beauty Studio." }
@@ -940,7 +1547,7 @@
             formResena.reset();
         });
 
-        /* LÓGICA DEL CHATBOT DE IA INTELIGENTE Y AVANZADO */
+        /* CHATBOT */
         function toggleAIChat() {
             const chatBox = document.getElementById('aiChatBox');
             chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
@@ -957,73 +1564,38 @@
             if (!query) return;
 
             const chatBody = document.getElementById('aiChatBody');
-
-            // Agregar mensaje del usuario
             chatBody.innerHTML += `<div class="chat-msg user">${textoOriginal}</div>`;
             input.value = '';
             chatBody.scrollTop = chatBody.scrollHeight;
 
-            // IA Inteligente con análisis de múltiples palabras clave y conceptos
-            let respuesta = "Comprendo tu consulta. En ML Beauty Studio nos especializamos en realzar tu belleza natural. Puedes preguntarme específicamente por nuestros servicios de cabello, spa de uñas, tratamientos faciales, maquillaje, horarios, ubicación en Sogamoso o cómo agendar tu turno.";
+            let respuesta = "Comprendo tu consulta. En ML Beauty Studio nos especializamos en realzar tu belleza natural[cite: 2]. Puedes preguntarme por nuestros peinados, uñas, tratamientos faciales, maquillaje, precios, o cómo agendar tu cita[cite: 2].";
 
-            // Detector de intenciones abiertas: Saludos
             if (query.match(/hola|buenas|saludos|ola|hey|hi/)) {
-                respuesta = "¡Hola! Qué gusto saludarte 💖. Soy el asistente inteligente de ML Beauty Studio. ¿En qué te puedo colaborar hoy? Puedes consultarme sobre servicios, precios aproximados, tipos de tratamientos o cómo reservar.";
-            }
-            
-            // Detector de intenciones abiertas: Cabello / Estilismo
-            else if (query.match(/corte|pelo|cabell|peinad|tintura|mecha|balayage|repolarizacion/)) {
-                respuesta = "✂️ **Servicios Capilares y Estilismo:** Ofrecemos diseños de imagen modernos adaptados a tus tendencias. Contamos con cortes personalizados, repolarización capilar profunda, tinturas, mechas, balayage y peinados sofisticados para cualquier ocasión especial.";
-            } 
-            
-            // Detector de intenciones abiertas: Uñas / Manicura / Pedicura
-            else if (query.match(/uña|manicur|pedicur|esmalte|acrilic|gel|manos|pies/)) {
-                respuesta = "💅 **Spa de Uñas:** Cuidado integral y estético para manos y pies. Realizamos manicura y pedicura tradicional, esmaltado semipermanente de larga duración, uñas esculpidas en gel o acrílico, y hermosos diseños personalizados a mano alzada.";
-            } 
-            
-            // Detector de intenciones abiertas: Rostro / Faciales / Piel
-            else if (query.match(/facial|cara|piel|limpieza|hidratacion|exfoliacion|rejuvenecedor|acido hialuronico/)) {
-                respuesta = "🌿 **Cuidado Facial & Estética:** Diseñado para devolverle la lozanía a tu rostro. Incluye limpiezas faciales profundas, hidratación avanzada con ácido hialurónico, exfoliación y tratamientos rejuvenecedores adaptados a tu tipo de piel.";
-            } 
-            
-            // Detector de intenciones abiertas: Maquillaje
-            else if (query.match(/maquillaje|make up|boda|evento|fotograf|social/)) {
-                respuesta = "💄 **Maquillaje Profesional:** Ideal para bodas, eventos sociales o sesiones fotográficas. Destacamos tus mejores facciones utilizando técnicas profesionales de alta fijación y larga duración.";
-            } 
-            
-            // Detector de intenciones abiertas: Precios / Costos
-            else if (query.match(/precio|costo|cuanto vale|valor|tarifa|pagar/)) {
-                respuesta = "💰 Los precios varían según el servicio o la complejidad del diseño que elijas. Te invitamos a explorar nuestra sección de Servicios o contactarnos directamente en el salón para darte una cotización exacta y a la medida.";
-            } 
-            
-            // Detector de intenciones abiertas: Agendar / Reservar / Turnos / Códigos
-            else if (query.match(/agendar|cita|turno|reservar|como se hace|paso|codigo|plazo/)) {
-                respuesta = "📅 **Cómo Agendar tu Cita:**\n1. Dirígete al formulario en la sección 'Agendar Cita'.\n2. Ingresa tus datos (Nombre, Teléfono, Correo), selecciona el servicio, la fecha y la hora.\n3. Haz clic en 'Confirmar y Agendar'.\n¡Te aparecerá un código único de 3 dígitos en pantalla para presentar al llegar! También puedes consultar los turnos confirmados abajo en las tablas públicas.";
-            } 
-            
-            // Detector de intenciones abiertas: Ubicación / Dirección / Sogamoso
-            else if (query.match(/ubicacion|donde|dirección|barrio|magdalena|sogamoso|llegar|mapa/)) {
-                respuesta = "📍 Nos encontramos ubicados en el **barrio Magdalena de Sogamoso, Boyacá**. Puedes hacer clic en el botón 'Ir al mapa' ubicado en la sección inferior de la página para ver la ruta exacta y llegar sin inconvenientes.";
-            } 
-            
-            // Detector de intenciones abiertas: Horarios / Días abiertos
-            else if (query.match(/horario|hora|dia|abierto|atienden|lunes|sabado|domingo/)) {
-                respuesta = "⏰ Nuestro horario de atención en el salón es de **Lunes a Sábado, desde las 9:00 AM hasta las 7:00 PM**.";
-            } 
-            
-            // Detector de intenciones abiertas: Reseñas / Opiniones
-            else if (query.match(/reseña|comentario|opinion|calificacion|estrella/)) {
-                respuesta = "⭐ ¡Tu opinión nos importa! Puedes leer lo que otras clientas opinan o dejar tu propia reseña con calificación por estrellas en la sección 'Reseñas' del menú superior de la página.";
+                respuesta = "¡Hola! Qué gusto saludarte 💖. Soy el asistente inteligente de ML Beauty Studio. ¿En qué te puedo colaborar hoy? Puedes consultarme sobre servicios, precios o cómo reservar.";
+            } else if (query.match(/corte|pelo|cabell|peinad|tintura|mecha|balayage/)) {
+                respuesta = "✂️ **Servicios de Corte & Peinado:** Ofrecemos cepillados, ondas, tintes, balayage y peinados para toda ocasión (Precios desde $40.000 COP)[cite: 2].";
+            } else if (query.match(/uña|manicur|pedicur|esmalte|acrilic|gel|manos|pies/)) {
+                respuesta = "💅 **Spa de Uñas:** Manicura semipermanente (desde $35.000 COP), uñas acrílicas y pedicuras completas[cite: 2].";
+            } else if (query.match(/facial|cara|piel|limpieza|hidratacion/)) {
+                respuesta = "🌿 **Cuidado Facial:** Limpiezas faciales profundas con vapor e hidratación avanzada (desde $80.000 COP)[cite: 2].";
+            } else if (query.match(/maquillaje|make up|boda|evento|fotograf|social/)) {
+                respuesta = "💄 **Maquillaje Profesional:** Maquillaje social, de novias y para grados (desde $85.000 COP)[cite: 2].";
+            } else if (query.match(/precio|costo|cuanto vale|valor|tarifa/)) {
+                respuesta = "💰 Los precios van desde $35.000 COP en uñas, $40.000 COP en peinados/cortes, $80.000 COP en faciales y $85.000 COP en maquillaje. ¡Haz clic en las tarjetas de servicios para ver las fotos reales y tarifas!";
+            } else if (query.match(/agendar|cita|turno|reservar/)) {
+                respuesta = "📅 **Cómo Agendar:** Llena el formulario en la sección 'Agendar Cita' con tus datos y servicio. ¡Recibirás un código único de 3 dígitos para tu turno!";
+            } else if (query.match(/ubicacion|donde|dirección|barrio|magdalena|sogamoso/)) {
+                respuesta = "📍 Estamos ubicados en el **barrio Magdalena de Sogamoso, Boyacá**[cite: 2]. ¡Te esperamos!";
+            } else if (query.match(/horario|hora|dia|abierto|atienden/)) {
+                respuesta = "⏰ Atendemos de **Lunes a Sábado, de 9:00 AM a 7:00 PM**[cite: 2].";
             }
 
-            // Simular respuesta fluida de IA con un pequeño retraso
             setTimeout(() => {
                 chatBody.innerHTML += `<div class="chat-msg bot">${respuesta.replace(/\n/g, '<br>')}</div>`;
                 chatBody.scrollTop = chatBody.scrollHeight;
             }, 450);
         }
 
-        // Ejecución al cargar la página
         depurarCitasVencidas();
         renderizarResenas();
     </script>
